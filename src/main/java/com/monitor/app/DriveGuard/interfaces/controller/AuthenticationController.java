@@ -2,6 +2,7 @@ package com.monitor.app.DriveGuard.interfaces.controller;
 
 
 import com.monitor.app.DriveGuard.application.dto.LoginRequest;
+import com.monitor.app.DriveGuard.application.dto.LoginResponse;
 import com.monitor.app.DriveGuard.application.service.TokenService;
 import com.monitor.app.DriveGuard.domain.model.Driver;
 import com.monitor.app.DriveGuard.domain.repository.DriverRepository;
@@ -29,11 +30,12 @@ public class AuthenticationController {
     public ResponseEntity login(@RequestBody LoginRequest data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
-
-        var token = tokenService.generateToken((Driver) auth.getPrincipal());
-
-        return ResponseEntity.ok(token);
+        Driver driver = (Driver) auth.getPrincipal();
+        var token = tokenService.generateToken(driver);
+        LoginResponse loginResponse = new LoginResponse(driver.getId(), token);
+        return ResponseEntity.ok(loginResponse);
     }
+
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody Driver data){
