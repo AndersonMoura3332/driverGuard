@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("photo")
@@ -17,12 +18,13 @@ public class PhotoController {
     @Autowired
     private PhotoService photoService;
 
-    @PostMapping
-    public ResponseEntity<Photo> uploadPhoto(@RequestParam String tripId, @RequestParam("file") MultipartFile file) throws IOException {
-        byte[] fileData = file.getBytes();
-        Photo photo = photoService.savePhoto(tripId, fileData);
+    @PostMapping("/photo")
+    public ResponseEntity<Photo> uploadPhoto(@RequestBody PhotoUploadRequest request) throws IOException {
+        byte[] fileData = Base64.getDecoder().decode(request.imageBase64());
+        Photo photo = photoService.savePhoto(request.tripId(), fileData);
         return ResponseEntity.ok(photo);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> getPhotoById(@PathVariable String id) throws IOException {
@@ -30,11 +32,18 @@ public class PhotoController {
         if (photo == null) {
             return ResponseEntity.notFound().build();
         }
-        byte[] photoData = photo.getData();
+        byte[] photoData = photo.getData(); // Já está em byte[], pois você decodificou o base64 no upload
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(photoData);
     }
+    public record PhotoUploadRequest(
+         String tripId,
+         String imageBase64
+){}
+        // Getters e Setters
+
+
 }

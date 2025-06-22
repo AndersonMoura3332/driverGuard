@@ -15,8 +15,9 @@ public class TripController {
     private TripService tripService;
 
     @PostMapping
-    public Trip startTrip(@RequestBody String driverId) {
-        return tripService.startTrip(driverId);
+    public Trip startTrip(@RequestBody TripRequest request) {
+        System.out.printf("Driver id: %s%n",request.driverId);
+        return tripService.startTrip(request.driverId);
     }
 
     @GetMapping("/{driverId}")
@@ -28,4 +29,6 @@ public class TripController {
     public Trip endTrip(@PathVariable String tripId) {
         return tripService.endTrip(tripId);
     }
+
+    public record TripRequest(String driverId, String tripId){}
 }
