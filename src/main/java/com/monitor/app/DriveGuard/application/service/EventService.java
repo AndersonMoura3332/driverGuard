@@ -1,5 +1,6 @@
 package com.monitor.app.DriveGuard.application.service;
 
+import com.monitor.app.DriveGuard.application.dto.EventRequest;
 import com.monitor.app.DriveGuard.domain.enums.EventType;
 import com.monitor.app.DriveGuard.domain.model.Event;
 import com.monitor.app.DriveGuard.domain.repository.EventRepository;
@@ -15,11 +16,8 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
-    public Event logEvent(String tripId, EventType type) {
-        Event event = new Event();
-        event.setTripId(tripId);
-        event.setType(type);
-        event.setTimestamp(LocalDateTime.now());
+    public Event logEvent(EventRequest request) {
+        Event event = Event.of(request);
         return eventRepository.save(event);
     }
 

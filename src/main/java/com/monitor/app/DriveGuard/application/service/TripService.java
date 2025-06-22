@@ -28,7 +28,6 @@ public class TripService {
         Trip trip = new Trip();
         trip.setDriverId(driverId);
         trip.setStartTime(LocalDateTime.now());
-        trip.setStartTime(LocalDateTime.now());
         return tripRepository.save(trip);
     }
 

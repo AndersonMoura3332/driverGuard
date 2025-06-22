@@ -1,5 +1,6 @@
 package com.monitor.app.DriveGuard.interfaces.controller;
 
+import com.monitor.app.DriveGuard.application.dto.EventRequest;
 import com.monitor.app.DriveGuard.application.service.EventService;
 import com.monitor.app.DriveGuard.domain.enums.EventType;
 import com.monitor.app.DriveGuard.domain.model.Event;
@@ -17,8 +18,8 @@ public class EventController {
     private EventService eventService;
 
     @PostMapping
-    public ResponseEntity<Event> logEvent(@RequestParam String tripId, @RequestParam EventType type) {
-        Event event = eventService.logEvent(tripId, type);
+    public ResponseEntity<Event> logEvent(@RequestBody EventRequest request) {
+        Event event = eventService.logEvent(request);
         return ResponseEntity.ok(event);
     }
 

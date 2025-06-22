@@ -1,12 +1,14 @@
 package com.monitor.app.DriveGuard.domain.model;
 
+import com.monitor.app.DriveGuard.application.dto.EventRequest;
 import com.monitor.app.DriveGuard.domain.enums.EventType;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-
+@Data
 @Document
 public class Event {
     @Id
@@ -14,38 +16,23 @@ public class Event {
     private String tripId;
     private EventType type;
     private LocalDateTime timestamp;
+    private Localization localization;
+    private Double speed;
 
+    public static Event of(EventRequest request){
+        Event event = new Event();
+        event.setType(request.eventType());
+        event.setTripId(request.tripId());
+        event.setTimestamp(LocalDateTime.now());
+        event.setLocalization(request.localization());
+        if (request.speed() != null)
+            event.setSpeed(request.speed());
+        return event;
 
-    public String getId() {
-        return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
-    public String getTripId() {
-        return tripId;
-    }
 
-    public void setTripId(String tripId) {
-        this.tripId = tripId;
-    }
-
-    public EventType getType() {
-        return type;
-    }
-
-    public void setType(EventType type) {
-        this.type = type;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
+    public record Localization (Double latitude, Double longitude) {}
 
 }
