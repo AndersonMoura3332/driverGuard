@@ -39,6 +39,7 @@ public class TripService {
         return tripRepository.save(trip);
     }
 
+    public Trip getById(String id) {return  tripRepository.findById(id).orElse(null);}
     public List<Trip> getTripsByDriver(String driverId) {
         return tripRepository.findByDriverId(driverId);
     }

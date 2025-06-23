@@ -20,7 +20,12 @@ public class TripController {
         return tripService.startTrip(request.driverId);
     }
 
-    @GetMapping("/{driverId}")
+    @GetMapping("/{id}")
+    public Trip getTripById(@PathVariable("id") String id){
+        return tripService.getById(id);
+    }
+
+    @GetMapping("driver/{driverId}")
     public List<Trip> getTripsByDriver(@PathVariable String driverId) {
         return tripService.getTripsByDriver(driverId);
     }
