@@ -2,7 +2,6 @@ package com.monitor.app.DriveGuard.interfaces.controller;
 
 import com.monitor.app.DriveGuard.application.dto.EventRequest;
 import com.monitor.app.DriveGuard.application.service.EventService;
-import com.monitor.app.DriveGuard.domain.enums.EventType;
 import com.monitor.app.DriveGuard.domain.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

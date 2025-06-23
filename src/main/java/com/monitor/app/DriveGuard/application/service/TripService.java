@@ -33,9 +33,7 @@ public class TripService {
 
     public Trip endTrip(String tripId) {
         Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new RuntimeException("Trip not found"));
-        Photo photo = photoRepository.findByTripId(tripId).orElseThrow(() -> new RuntimeException("Photo not found"));
         List<Event> eventList = eventRepository.findAllByTripId(tripId);
-        trip.setPhotoId(photo.getId());
         trip.setEventIds(eventList.stream().map(Event::getId).toList());
         trip.setEndTime(LocalDateTime.now());
         return tripRepository.save(trip);
