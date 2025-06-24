@@ -22,8 +22,6 @@ public class EventService {
     }
 
     public List<Event> getEventsByTrip(String tripId) {
-        return eventRepository.findAll().stream()
-                .filter(event -> event.getTripId().equals(tripId))
-                .toList();
+        return eventRepository.findAllByTripId(tripId);
     }
 }
